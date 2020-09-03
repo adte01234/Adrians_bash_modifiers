@@ -1,0 +1,24 @@
+#!/bin/bash
+
+STR="source ~/Adrians_bash_modifiers/source_everytime"
+if ! grep -q "$STR" "$HOME/.bashrc"; then
+  printf "$STR #Added by run_once script\n" >> ~/.bashrc
+  printf "Added the source line to ~/.bashrc\n"
+fi
+
+STR="set tabstospaces"
+if ! grep -q "$STR" "$HOME/.nanorc"; then
+  printf "$STR #Added by run_once script\n" >> ~/.nanorc
+  printf "Set nano tabs to spaces\n"
+fi
+
+STR="set tabsize 2"
+if ! grep -q "$STR" "$HOME/.nanorc"; then
+  printf "$STR #Added by run_once script\n" >> ~/.nanorc
+  printf "Set nano tabsize to 2\n"
+fi
+
+printf "TODO: Add ssh keys in this script (if they don't already exist)\n"
+printf "TODO: Also do this for GitHub\n"
+
+exit 0

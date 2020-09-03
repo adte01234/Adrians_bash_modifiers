@@ -1,0 +1,9 @@
+alias data='ssh ateigen@data.cs.purdue.edu'
+alias cuda='ssh ateigen@cuda.cs.purdue.edu'
+alias aws='ssh ubuntu@ec2-13-49-70-106.eu-north-1.compute.amazonaws.com'
+alias r='ssh scholar.rcac.purdue.edu'
+
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+
+cd ~
