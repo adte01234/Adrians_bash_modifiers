@@ -37,7 +37,7 @@ case "$REPLY" in
     if [ -z "$REPLY" ]; then
       REPLY=$USER
     fi
-    ssh -q $REPLY@$server exit
+    ssh -q -oBatchMode=yes $REPLY@$server exit
     if [ $? -ne 0 ]; then
       ssh-copy-id $REPLY@$server
       printf "Added SSH key to $server\n"
@@ -52,7 +52,7 @@ case "$REPLY" in
     if [ -z "$REPLY" ]; then
       REPLY=$USER
     fi
-    ssh -q $REPLY@$server exit
+    ssh -q -oBatchMode=yes $REPLY@$server exit
     if [ $? -ne 0 ]; then
       ssh-copy-id $REPLY@$server
       printf "Added SSH key to $server\n"
@@ -62,7 +62,7 @@ case "$REPLY" in
     echo
 
     # For aws
-    printf "TODO: Somehow add AWS"
+    printf "TODO: Somehow add AWS\n"
     echo
 
     # For R (STAT 350)
@@ -71,7 +71,7 @@ case "$REPLY" in
     if [ -z "$REPLY" ]; then
       REPLY=$USER
     fi
-    ssh -q $REPLY@$server exit
+    ssh -q -oBatchMode=yes $REPLY@$server exit
     if [ $? -ne 0 ]; then
       ssh-copy-id $REPLY@$server
       printf "Added SSH key to $server\n"
@@ -112,7 +112,8 @@ case $REPLY in
   * )
     echo "Skipping"
   ;;
+esac
 
-printf "TODO: Fix GitHub and R"
+printf "TODO: Fix GitHub and R\n"
 
 exit 0
