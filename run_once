@@ -81,18 +81,9 @@ case "$REPLY" in
     echo
 
     # For GitHub
-    read -p "Enter username for GitHub: " -r
-    if [ -z "$REPLY" ]; then
-      REPLY=$USER
-    fi
-    username=$REPLY
-    read -p "Enter a title for the GitHub key: " -r
-    while [ -z "$REPLY" ]; do
-      read -p "Enter a title for the GitHub key: " -r
-    done
-    title=$REPLY
-    key=$(cat ~/.ssh/id_rsa.pub)
-    curl -u "$USER" --data "{title:$title,key:$key}" https://api.github.com/user/keys
+    printf "GitHub no longer supports using a username and password through curl.\n"
+    printf "You will need to do this manually at their website\n"
+    echo
 
   ;;
   n|N )
