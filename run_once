@@ -18,7 +18,101 @@ if ! grep -q "$STR" "$HOME/.nanorc"; then
   printf "Set nano tabsize to 2\n"
 fi
 
-printf "TODO: Add ssh keys in this script (if they don't already exist)\n"
-printf "TODO: Also do this for GitHub\n"
+if ! test -f "$HOME/.ssh/id_rsa"; then
+  echo "Creating a private ssh key"
+  printf "\n\n\n" | ssh-keygen
+else
+  printf "You already had a private ssh key\n"
+fi
+
+
+read -p "Add ssh keys (y/n)?: " -r
+echo
+case "$REPLY" in
+  y|Y )
+
+    # For data.cs.purdue.edu
+    server="data.cs.purdue.edu"
+    read -p "Enter username for $server: " -r
+    if [ -z "$REPLY" ]; then
+      REPLY=$USER
+    fi
+    ssh -q $REPLY@$server exit
+    if [ $? -ne 0 ]; then
+      ssh-copy-id $REPLY@$server
+      printf "Added SSH key to $server\n"
+    else
+      printf "SSH Key already existed at $server\n"
+    fi
+    echo
+
+     # For cuda.cs.purdue.edu
+    server="cuda.cs.purdue.edu"
+    read -p "Enter username for $server: " -r
+    if [ -z "$REPLY" ]; then
+      REPLY=$USER
+    fi
+    ssh -q $REPLY@$server exit
+    if [ $? -ne 0 ]; then
+      ssh-copy-id $REPLY@$server
+      printf "Added SSH key to $server\n"
+    else
+      printf "SSH Key already existed at $server\n"
+    fi
+    echo
+
+    # For aws
+    printf "TODO: Somehow add AWS"
+    echo
+
+    # For R (STAT 350)
+    server="scholar.rcac.purdue.edu"
+    read -p "Enter username for $server: " -r
+    if [ -z "$REPLY" ]; then
+      REPLY=$USER
+    fi
+    ssh -q $REPLY@$server exit
+    if [ $? -ne 0 ]; then
+      ssh-copy-id $REPLY@$server
+      printf "Added SSH key to $server\n"
+    else
+      printf "SSH Key already existed at $server\n"
+    fi
+    echo
+
+    # For GitHub
+    read -p "Enter username for GitHub: " -r
+    if [ -z "$REPLY" ]; then
+      REPLY=$USER
+    fi
+    username=$REPLY
+    read -p "Enter a title for the GitHub key: " -r
+    while [ -z "$REPLY" ]; do
+      read -p "Enter a title for the GitHub key: " -r
+    done
+    title=$REPLY
+    key=$(cat ~/.ssh/id_rsa.pub)
+    curl -u "$USER" --data "{title:$title,key:$key}" https://api.github.com/user/keys
+
+  ;;
+  n|N )
+    printf "The keys will not be added\n"
+  ;;
+  * )
+    printf "Dumbass, can\'t even type y\n"
+  ;;
+esac
+
+read -p "Do you want to install sl? (y/n): " -r
+echo
+case $REPLY in
+  y|Y )
+    sudo apt install sl <<< "y" >&/dev/null
+  ;;
+  * )
+    echo "Skipping"
+  ;;
+
+printf "TODO: Fix GitHub and R"
 
 exit 0
