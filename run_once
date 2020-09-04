@@ -79,7 +79,10 @@ case "$REPLY" in
     # For GitHub
     printf "GitHub no longer supports using a username and password through curl.\n"
     printf "You will need to do this manually at their website\n"
+    printf "Once you added the SSH key, run this command:\n"
+    printf "ssh -T git@github.com\n"
     echo
+
 
   ;;
   n|N )
