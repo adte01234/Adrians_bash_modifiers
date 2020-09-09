@@ -83,6 +83,19 @@ case "$REPLY" in
     printf "ssh -T git@github.com\n"
     echo
 
+<<<<<<< HEAD
+=======
+    read -p "Enter GitHub email: " -r
+    while [ -z "$REPLY" ]; do
+      read -p "Enter GitHub email: " -r
+    done
+    git config --global user.email "$REPLY"
+    read -p "Enter GitHub Name: " -r
+    while [ -z "$REPLY" ]; do
+      read -p "Enter GitHub Name: " -r
+    done
+    git config --global user.name "$REPLY"
+>>>>>>> 3f4bef7be45d44df63f3f1c227932bbf3ad7460d
 
   ;;
   n|N )
@@ -106,6 +119,7 @@ esac
 
 echo
 printf "TODO: Add AWS"
+printf "TODO: Set REPLY to \"\" after every read\n"
 echo
 
 exit 0

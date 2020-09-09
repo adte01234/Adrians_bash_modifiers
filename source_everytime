@@ -7,3 +7,7 @@ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/nu
 export LIBGL_ALWAYS_INDIRECT=1
 
 cd ~
+
+#This should be set to whatever docker thing I am currently using
+alias dock='cd ~/arc_ws/src/arc_tutorials/docker; ./docker-run.sh'
+alias dockj='cd ~/arc_ws/src/arc_tutorials/docker; ./docker-join.sh'
