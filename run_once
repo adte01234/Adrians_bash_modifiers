@@ -79,8 +79,12 @@ case "$REPLY" in
     # For GitHub
     printf "GitHub no longer supports using a username and password through curl.\n"
     printf "You will need to do this manually at their website\n"
+    printf "Once you added the SSH key, run this command:\n"
+    printf "ssh -T git@github.com\n"
     echo
 
+<<<<<<< HEAD
+=======
     read -p "Enter GitHub email: " -r
     while [ -z "$REPLY" ]; do
       read -p "Enter GitHub email: " -r
@@ -91,6 +95,7 @@ case "$REPLY" in
       read -p "Enter GitHub Name: " -r
     done
     git config --global user.name "$REPLY"
+>>>>>>> 3f4bef7be45d44df63f3f1c227932bbf3ad7460d
 
   ;;
   n|N )
