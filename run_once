@@ -1,103 +1,69 @@
 #!/bin/bash
 
-STR="source ~/Adrians_bash_modifiers/source_everytime"
-if ! grep -q "$STR" "$HOME/.bashrc"; then
-  printf "$STR #Added by run_once script\n" >> ~/.bashrc
-  printf "Added the source line to ~/.bashrc\n"
-fi
+install_program () {
+  read -p "Do you want to install $1? (y/n): " -r
+  case $REPLY in
+    y|Y )
+      sudo apt install "$1" -y
+    ;;
+  esac
+  printf "\n"
+}
 
-STR="set tabstospaces"
-if ! grep -q "$STR" "$HOME/.nanorc"; then
-  printf "$STR #Added by run_once script\n" >> ~/.nanorc
-  printf "Set nano tabs to spaces\n"
-fi
+install_program "cmatrix"
+install_program "sl"
+install_program "neofetch"
 
-STR="set tabsize 2"
-if ! grep -q "$STR" "$HOME/.nanorc"; then
-  printf "$STR #Added by run_once script\n" >> ~/.nanorc
-  printf "Set nano tabsize to 2\n"
-fi
+add_server () {
+  SERVER="$1"
+  read -p "Do you want to add ssh keys to $SERVER? (y/n): " -r
+  case $REPLY in
+    y|Y )
+      if ! test -f "$HOME/.ssh/id_rsa"; then
+        echo "Creating a ssh key pair"
+        printf "\n\n\n" | ssh-keygen
+      fi
 
-if ! test -f "$HOME/.ssh/id_rsa"; then
-  echo "Creating a private ssh key"
-  printf "\n\n\n" | ssh-keygen
-else
-  printf "You already have a private ssh key\n"
-fi
+      ssh-copy-id "$SERVER"
+    ;;
+  esac
+  printf "\n"
+}
 
+add_server "ateigen@data.cs.purdue.edu"
+add_server "ateigen@scholar.rcac.purdue.edu"
 
-read -p "Add ssh keys (y/n)?: " -r
-echo
-case "$REPLY" in
-  y|Y )
+append_bashrc () {
+  if ! grep -q "$1" "$HOME/.bashrc"; then
+    read -p "Add $1 to $HOME/.bashrc? (y/n): " -r
+    case "$REPLY" in
+      y|Y )
+        printf "$1\n" >> ~/.bashrc
+      ;;
+    esac
+    printf "\n"
+  fi
+}
 
-    # For data.cs.purdue.edu
-    server="data.cs.purdue.edu"
-    read -p "Enter username for $server: " -r
-    if [ -z "$REPLY" ]; then
-      REPLY=$USER
-    fi
-    ssh -q -oBatchMode=yes $REPLY@$server exit
-    if [ $? -ne 0 ]; then
-      ssh-copy-id $REPLY@$server
-      printf "Added SSH key to $server\n"
-    else
-      printf "SSH Key already existed at $server\n"
-    fi
-    echo
+append_bashrc "alias data='ssh ateigen@data.cs.purdue.edu'"
+append_bashrc "alias cuda='ssh ateigen@cuda.cs.purdue.edu'"
+append_bashrc "alias r='ssh scholar.rcac.purdue.edu'"
+append_bashrc "alias ls='/usr/bin/ls -F'"
+append_bashrc "alias ll='/usr/bin/ls -lh'"
 
-     # For cuda.cs.purdue.edu
-    server="cuda.cs.purdue.edu"
-    read -p "Enter username for $server: " -r
-    if [ -z "$REPLY" ]; then
-      REPLY=$USER
-    fi
-    ssh -q -oBatchMode=yes $REPLY@$server exit
-    if [ $? -ne 0 ]; then
-      ssh-copy-id $REPLY@$server
-      printf "Added SSH key to $server\n"
-    else
-      printf "SSH Key already existed at $server\n"
-    fi
-    echo
+append_nanorc () {
+  if ! grep -q "$1" "$HOME/.nanorc"; then
+    read -p "Add $1 to $HOME/.nanorc? (y/n): " -r
+    case "$REPLY" in
+      y|Y )
+        printf "$1\n" >> ~/.nanorc
+      ;;
+    esac
+    printf "\n"
+  fi
+}
 
-    # For R (STAT 350)
-    server="scholar.rcac.purdue.edu"
-    read -p "Enter username for $server: " -r
-    if [ -z "$REPLY" ]; then
-      REPLY=$USER
-    fi
-    ssh -q -oBatchMode=yes $REPLY@$server exit
-    if [ $? -ne 0 ]; then
-      ssh-copy-id $REPLY@$server
-      printf "Added SSH key to $server\n"
-    else
-      printf "SSH Key already existed at $server\n"
-    fi
-    echo
-  ;;
-  n|N )
-    printf "The keys will not be added\n"
-  ;;
-  * )
-    printf "Dumbass, can\'t even type y\n"
-  ;;
-esac
-
-read -p "Do you want to install sl? (y/n): " -r
-echo
-case $REPLY in
-  y|Y )
-    sudo apt install sl <<< "y" >&/dev/null
-  ;;
-  * )
-    echo "Skipping"
-  ;;
-esac
-
-echo
-printf "TODO: Add AWS"
-printf "TODO: Set REPLY to \"\" after every read\n"
-echo
+append_nanorc "set tabstospaces"
+append_nanorc "set tabsize 2"
 
 exit 0
