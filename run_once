@@ -1,5 +1,8 @@
 #!/bin/bash
 
+git config --global user.email "ateigen@protonmail.com"
+git config --global user.name "Adrian Teigen"
+
 install_program () {
   read -p "Do you want to install $1? (y/n): " -r
   case $REPLY in
@@ -13,6 +16,7 @@ install_program () {
 install_program "cmatrix"
 install_program "sl"
 install_program "neofetch"
+install_program "build-essential"
 
 add_server () {
   SERVER="$1"
