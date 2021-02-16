@@ -14,6 +14,21 @@ install_program "cmatrix"
 install_program "sl"
 install_program "neofetch"
 
+install_snap () {
+  read -p "Do you want to install $1? (y/n): " -r
+  case $REPLY in
+    y|Y )
+      sudo snap install "$1"
+    ;;
+  esac
+  printf "\n"
+}
+
+install_snap "spotify"
+install_snap "slack"
+install_snap "zoom-client"
+install_snap "1password"
+
 add_server () {
   SERVER="$1"
   read -p "Do you want to add ssh keys to $SERVER? (y/n): " -r
@@ -50,6 +65,8 @@ append_bashrc "alias cuda='ssh ateigen@cuda.cs.purdue.edu'"
 append_bashrc "alias r='ssh scholar.rcac.purdue.edu'"
 append_bashrc "alias ls='/usr/bin/ls -F'"
 append_bashrc "alias ll='/usr/bin/ls -lh'"
+append_bashrc "alias dr='~/purdue_arc/src/rocket_league/docker/docker-run.sh'"
+append_bashrc "alias dj='~/purdue_arc/src/rocket_league/docker/docker-join.sh'"
 
 append_nanorc () {
   if ! grep -q "$1" "$HOME/.nanorc"; then
@@ -65,5 +82,9 @@ append_nanorc () {
 
 append_nanorc "set tabstospaces"
 append_nanorc "set tabsize 2"
+
+
+git config --global user.email "ateigen@protonmail.com"
+git config --global user.name "Adrian Teigen"
 
 exit 0
