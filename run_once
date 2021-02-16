@@ -87,8 +87,4 @@ append_nanorc () {
 append_nanorc "set tabstospaces"
 append_nanorc "set tabsize 2"
 
-
-git config --global user.email "ateigen@protonmail.com"
-git config --global user.name "Adrian Teigen"
-
 exit 0
