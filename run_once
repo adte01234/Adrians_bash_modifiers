@@ -71,6 +71,7 @@ append_bashrc "alias ls='/usr/bin/ls -F'"
 append_bashrc "alias ll='/usr/bin/ls -lh'"
 append_bashrc "alias dr='~/purdue_arc/src/rocket_league/docker/docker-run.sh'"
 append_bashrc "alias dj='~/purdue_arc/src/rocket_league/docker/docker-join.sh'"
+append_bashrc "alias save=\"git add --all && git commit -m 'save work' && git push\""
 
 append_nanorc () {
   if ! grep -q "$1" "$HOME/.nanorc"; then
